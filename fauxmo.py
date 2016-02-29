@@ -390,7 +390,7 @@ class rest_api_handler(object):
 
 
 #if len(sys.argv) > 1 and sys.argv[1] == '-d':
-    DEBUG = True
+#    DEBUG = True
 
 # Set up our singleton for polling the sockets for data ready
 #p = poller()
