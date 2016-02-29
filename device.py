@@ -14,19 +14,25 @@ import sys
 import time
 import RPi.GPIO as GPIO
 
-DEVICE_NAME = {"My Car":0} ## edit name of device
+DEVICE_NAME = "My Car" ## edit name of device
+DEVICE_PORT = 52000
 REMOTE_GPIO = 9  ## edit this to the correct GPIO to 74HC4052
 
-GPIO.cleanup()
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(9,GPIO.OUT)
-
-GPIO.output(9, GPIO.LOW) #make sure you dont start the car
+#GPIO.cleanup()
+#GPIO.setmode(GPIO.BCM)
+#GPIO.setup(9,GPIO.OUT)
+#GPIO.output(9, GPIO.LOW) #make sure you dont start the car
 
 logging.basicConfig(level=logging.DEBUG) ## disable debug logs
 
 
 class device_handler(object):
+    def __init__(self, name):
+        self.name = name
+	GPIO.cleanup()
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setup(9,GPIO.OUT)
+        GPIO.output(9,GPIO.LOW) #make sure the car is off
     def on(self):
         print self.name, "ON"
         logging.debug("turning car ON")
@@ -56,11 +62,9 @@ if __name__ == "__main__":
 
     p.add(u)
 
-    # Register the device callback as a fauxmo handler
-    d = device_handler()
+    d = device_handler(DEVICE_NAME)
     
-    for trig, port in DEVICE_NAME.items():
-        fauxmo.fauxmo(trig, u, p, None, port, d)
+    fauxmo.fauxmo(DEVICE_NAME, u, p, None, DEVICE_PORT, d) #attach call back
 
     # Loop and poll for incoming Echo requests
     logging.debug("Entering fauxmo polling loop")
