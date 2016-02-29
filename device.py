@@ -43,7 +43,7 @@ def changeIOState(state): ##simulate long key press
     if state:
         GPIO.output(REMOTE_GPIO,GPIO.HIGH)
         time.sleep(4)
-    else
+    else:
         GPIO.output(REMOTE_GPIO,GPIO.HIGH) ## check this if you two buttons to turn ON/OFF
         time.sleep(4)
 

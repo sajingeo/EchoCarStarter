@@ -7,7 +7,7 @@ the Amazon alexa app. You device "My Car" will now show up in the list of connec
 
 ### Related
 
-#### fauxmo
+#### [fauxmo][https://github.com/makermusings/fauxmo]
 **Emulated Belkin WeMo devices that work with the Amazon Echo**
 
 - http://www.makermusings.com/2015/07/13/amazon-echo-and-home-automation/
