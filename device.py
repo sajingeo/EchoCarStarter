@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """ fauxmo_minimal.py - Fabricate.IO
     This is a demo python file showing what can be done with the debounce_handler.
     The handler prints True when you say "Alexa, device on" and False when you say
@@ -12,27 +13,24 @@
 import fauxmo
 import logging
 import time
+import RPi.GPIO as GPIO
 
 from debounce_handler import debounce_handler
 
 logging.basicConfig(level=logging.DEBUG)
 
+REMOTE_GPIO = 9
+
 class device_handler(debounce_handler):
     """Publishes the on/off state requested,
        and the IP address of the Echo making the request.
     """
-    TRIGGERS = {"device": 52000}
+    TRIGGERS = {"My Car": 52000}
 
     def act(self, client_address, state):
         print "State", state, "from client @", client_address
         changeIOState(state)
         return True
-
-def setupIO():
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(REMOTE_GPIO,GPIO.OUT)
-    GPIO.output(REMOTE_GPIO,GPIO.LOW) #make sure the car is off
-
 
 def changeIOState(state): ##simulate long key press
     if state:
@@ -44,6 +42,11 @@ def changeIOState(state): ##simulate long key press
 
     GPIO.output(REMOTE_GPIO,GPIO.LOW)
 
+def setupIO():
+    GPIO.cleanup()
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(REMOTE_GPIO,GPIO.OUT)
+    GPIO.output(REMOTE_GPIO,GPIO.LOW) #make sure the car is off
 
 if __name__ == "__main__":
     # Startup the fauxmo server
@@ -69,5 +72,3 @@ if __name__ == "__main__":
         except Exception, e:
             logging.critical("Critical exception: " + str(e))
             break
-        finally:
-            GPIO.cleanup()
